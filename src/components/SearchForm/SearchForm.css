@@ -1,0 +1,118 @@
+.search {
+  padding-bottom: 52px;
+  color: #fff;
+  max-width: 608px;
+}
+
+.search__title {
+  font-family: 'Roboto Slab', Helvetica, Arial, sans-serif;
+  font-style:  normal;
+  font-weight: normal;
+  color: #fff;
+  font-size: 60px;
+  line-height: 64px;
+  max-width: 608px;
+  max-height: 128px;
+  margin-top: 0;
+}
+
+.search__subtitle {
+  max-width: 545px;
+  font-size: 18px;
+  line-height: 24px;
+  margin: 32px 0 0;
+}
+
+.search__form {
+  display: flex;
+  flex-direction: row;
+  max-width: 608px;
+  margin: 56px auto 10px;
+}
+
+.search__input {
+  background: #FFFFFF;
+  border: 1px solid #D1D2D6;
+  backdrop-filter: blur(8px);
+  border-radius: 100px;
+  min-width: 608px;
+  min-height: 64px;
+  flex-grow: 2;
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+  text-indent: 24px;
+}
+
+.search__input::placeholder {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: #B6BCBF;
+}
+
+.search__button {
+  background: #2F71E5;
+  border-radius: 100px;
+  min-width: 168px;
+  max-height: 64px;
+  margin-top: 0;
+  transform: translate(-100%);
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: #fff;
+}
+
+.search__button:hover {
+  cursor: pointer;
+  background-color: #347EFF;
+}
+
+.search__button:active {
+  background: #2A65CC;
+}
+
+/*Адаптив*/
+@media screen and (max-width: 767px) {
+  .search__title {
+    font-size: 36px;
+    line-height: 40px;
+    max-width: 385px;
+  }
+  .search__subtitle {
+    max-width: 452px;
+    margin-bottom: 64px;
+  }
+  .search__input {
+    min-width: 448px;
+  }
+}
+
+@media screen and (max-width: 510px) {
+  .search__input {
+    min-width: 400px;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .search__input {
+    min-width: 370px;
+  }
+}
+
+@media screen and (max-width: 405px) {
+  .search__form {
+    flex-direction: column;
+  }
+  .search__input {
+    min-width: 288px;
+  }
+  .search__button {
+    min-width: 288px;
+    transform: translate(0);
+    min-height: 56px;
+    margin-top: 16px;
+  }
+}
