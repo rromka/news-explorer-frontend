@@ -1,0 +1,215 @@
+.card {
+  position: relative;
+  background-color: #fff;
+  border-radius: 16px;
+  height: 576px;
+  z-index: 1;
+  text-decoration: none;
+  padding: 0 0 18px 0;
+}
+
+.card__control{
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: calc(100% - 48px);
+  max-height: 40px;
+  z-index: 1;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+/*Кнопка*/
+
+.card__button {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  border-radius: 8px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+
+}
+.card__button_type_bookmark {
+  background-image: url('../../images/bookmark.svg');
+}
+
+.card__button_type_bookmark:hover{
+  background-image: url('../../images/bookmark_hover.svg');
+}
+
+.card__button_type_bookmark-active{
+  background-image: url('../../images/mark_active.svg');
+}
+
+.card__button_type_trash {
+  background-image: url('../../images/trash.svg');
+}
+
+.card__button_type_trash:hover{
+  background-image: url('../../images/trash_hover.svg');
+}
+
+.card__button:hover ~ .informer{
+  display:flex;
+  z-index:1;
+}
+
+/*Картинка*/
+.card__image {
+  width: 100%;
+  height: 272px;
+  background-size: auto;
+  object-fit: fill;
+  background-position: center;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  position: relative;
+}
+
+/*Контейнер с данными карточки*/
+.card__data {
+  display: flex;
+  flex-direction: column;
+  min-height: 270px;
+  justify-content: space-between;
+  box-sizing: border-box;
+  text-decoration: none;
+  padding: 20px 24px 0 ;
+}
+
+/*Дата*/
+.card__date {
+  font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 24px;
+  color: #B6BCBF;
+  margin: 0 0 18px 0;
+}
+
+/*Заголовок*/
+.card__title {
+  font-family: 'Roboto Slab', Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 26px;
+  line-height: 30px;
+  color: #1A1B22;
+  margin: 0 0 18px 0;
+  max-height: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*Описание*/
+.card__description {
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: #1A1B22;
+  margin: 0 0 18px 0;
+  white-space: pre-line;
+  max-height: 88px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*Источник*/
+.card__source {
+  font-family: 'Roboto Slab', Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #B6BCBF;
+  margin: 0;
+}
+
+/*Адаптив*/
+@media screen and (max-width: 920px) {
+  .card__description {
+    max-height: 88px;
+    overflow: hidden;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .card{
+  height: 420px;
+  }
+  .card__control {
+    top: 8px;
+    right: 8px;
+    width: calc(100% - 16px);
+  }
+  .card__title {
+    font-size: 22px;
+    line-height: 24px;
+  }
+  .card__image {
+    height: 150px;
+  }
+  .card__data {
+    padding: 16px 16px 0;
+  }
+
+  /*Дата*/
+  .card__date {
+    margin: 0 0 12px 0;
+  }
+
+  /*Заголовок*/
+  .card__title {
+    font-size: 22px;
+    line-height: 24px;
+    margin: 0 0 10px 0;
+    max-height: 72px;
+  }
+
+  /*Описание*/
+  .card__description {
+    margin: 0 0 12px 0;
+    max-height: 88px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .card{
+    height: 440px;
+  }
+  .card__image {
+    height: 196px;
+  }
+
+  .card__data {
+    min-height: 240px;
+  }
+
+  /*Дата*/
+  .card__date {
+    margin: 0 0 10px 0;
+  }
+
+  /*Заголовок*/
+  .card__title {
+    line-height: 26px;
+    max-height: 52px;
+    margin: 0 0 10px 0;
+  }
+
+  /*Описание*/
+  .card__description {
+    margin: 0 0 8px 0;
+  }
+}
+
