@@ -1,16 +1,18 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {NavLink} from 'react-router-dom';
 import {useWindowWidth} from '@react-hook/window-size'
 import './Navigation.css';
 import exitIcon from '../../images/exit.svg'
 import exitIcon_light from '../../images/exit_light.svg'
 import MobileMenu from "../MobileMenu/MobileMenu";
+import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 
-function Navigation({isAutorized, isSavedNews, userName, hideBurger, onSignUp}) {
+function Navigation({loggedIn, isSavedNews, hideBurger, onSignUp, onSignOut}) {
   const lightButton = isSavedNews ? 'main__menu-button_light' : ''
   const [burgerActive, setBurgerActive] = useState(false)
   const savedNewsMenu = !!isSavedNews
   const onlyWidth = useWindowWidth(10)
+  const currentUser = useContext(CurrentUserContext)
 
   useEffect(() => {
     if (onlyWidth <= 767) {
@@ -29,23 +31,24 @@ function Navigation({isAutorized, isSavedNews, userName, hideBurger, onSignUp}) 
             Главная
           </NavLink>
         </li>
-        {isAutorized && <li className={`nav__item ${isSavedNews ? 'nav__item_active-light' : ''}`}>
+        {loggedIn && <li className={`nav__item ${isSavedNews ? 'nav__item_active-light' : ''}`}>
           <NavLink to='/saved-news' className={`nav__link ${isSavedNews ? 'nav__link_theme-light' : ''}`}>
             Сохраненные статьи
           </NavLink>
         </li>}
         <li className="nav__item">
-          <button onClick={onSignUp}
-                  className={`main__menu-button ${lightButton}`}>{isAutorized ? `${userName}` : 'Авторизоваться'}
-            {isAutorized ? <img className="main__menu-button-icon"
-                                src={`${isSavedNews ? exitIcon : exitIcon_light}`} alt="Выход"/> : ''}</button>
+          {loggedIn && <button onClick={onSignOut} className={`main__menu-button ${lightButton}`}>
+            {currentUser.name}
+            <img className="main__menu-button-icon" src={`${isSavedNews ? exitIcon : exitIcon_light}`} alt="Выход"/>
+          </button>}
+          {!loggedIn &&
+          <button onClick={onSignUp} className={`main__menu-button ${lightButton}`}>Авторизоваться</button>}
         </li>
       </ul>
 
       {(burgerActive && !hideBurger) && <MobileMenu
         savedNewsMenu={savedNewsMenu}
-        isAutorized={isAutorized}
-        userName={userName}
+        loggedIn={loggedIn}
         onSignUp={onSignUp}
       />}
     </nav>

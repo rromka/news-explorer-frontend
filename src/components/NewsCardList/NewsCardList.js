@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import './NewsCardList.css'
 import NewsCard from "../NewsCard/NewsCard";
-import data from '../../utils/data.json'
 
-function NewsCardList({isSavedNews}) {
+function NewsCardList({isSavedNews, data, loggedIn, onCardSave}) {
+  console.log(data)
 
-  const articles = data.articles // временно для вывода новостей
+  const articles = data // временно для вывода новостей
   const [searchResult, setSearchResult] = useState([...articles.slice(0, 3)])
   const [showButton, setShowButton] = useState(true)
 
@@ -31,7 +31,10 @@ function NewsCardList({isSavedNews}) {
           {searchResult.map((article) => <NewsCard
             {...article}
             savedNews={isSavedNews}
-            key={article.publishedAt}/>)}
+            key={article.publishedAt}
+            loggedIn={loggedIn}
+            onCardSave={onCardSave} //Сохранялка карточек
+          />)}
         </div>
         {showButton && <button
           className="news-card-list__button button"

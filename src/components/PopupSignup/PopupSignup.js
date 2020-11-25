@@ -5,15 +5,20 @@ import useInput from "../../hooks/useValidation";
 function PopupSignup({onClose, onSignIn, onSubmit}) {
 
   const email = useInput('', {isEmail: true})
-  const password = useInput('', {minLength: 6})
+  const password = useInput('', {minLength: 8})
   const name = useInput('', {minLength: 3})
 
-  //Всплывашка уникальности пользователя (пока по сабмиту)
+  // //Всплывашка уникальности пользователя (пока по сабмиту)
   const [isExist, setIsExist] = useState(false)
+
+  // const resetForm = () => {
+  //   setEmail('');
+  //   setPassword('');
+  // };
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit()
+    onSubmit(email.value, password.value, name.value)
   }
 
   return (

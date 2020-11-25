@@ -1,5 +1,5 @@
 import './SearchForm.css';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 function SearchForm({sendWord}) {
 
@@ -12,7 +12,6 @@ function SearchForm({sendWord}) {
   function handleSubmit(e) {
     e.preventDefault()
     sendWord(word)
-    setWord('')
   }
 
   return (

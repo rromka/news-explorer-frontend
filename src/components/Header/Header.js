@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import './Header.css';
 import Navigation from "../Navigation/Navigation";
 
-function Header({isAutorized, isSavedNews, userName, hideBurger, onSignUp}) {
+function Header({loggedIn, isSavedNews, hideBurger, onSignUp, onSignOut}) {
   const light = isSavedNews ? 'header__logo_black' : ''
   const headerLight = isSavedNews ? 'header_theme_light' : 'header_theme_dark'
 
@@ -12,11 +12,11 @@ function Header({isAutorized, isSavedNews, userName, hideBurger, onSignUp}) {
       <div className="header__elements">
         <Link to='/' className={`header__logo ${light}`}>NewsAnalyzer</Link>
         <Navigation
-          isAutorized={isAutorized}
+          loggedIn={loggedIn}
           isSavedNews={isSavedNews}
-          userName={userName}
           hideBurger={hideBurger}
           onSignUp={onSignUp}
+          onSignOut={onSignOut}
         />
       </div>
     </header>

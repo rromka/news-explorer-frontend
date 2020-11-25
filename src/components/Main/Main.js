@@ -5,94 +5,74 @@ import About from "../About/About";
 import NewsCardList from "../NewsCardList/NewsCardList";
 import Preloader from "../Preloader/Preloader";
 import NotFound from "../NotFound/NotFound";
-import React, {useState} from "react";
-import PopupSignup from "../PopupSignup/PopupSignup";
-import PopupSignin from "../PopupSignin/PopupSignin";
-import PopupWithInformer from "../PopupWithInformer/PopupWithInformer";
+import React, {useCallback, useEffect, useState} from "react";
 
-function Main() {
-  const [openedPopup, setOpenedPopup] = useState({})
-  const [hideBurger, setHideBurger] = useState(false)
-  const [showResult, setShowResult] = useState(false)
+import newsApi from '../../utils/NewsApi'
+import api from "../../utils/MainApi";
+
+function Main({data, onLogout, loggedIn, hideBurger, onSignupFormClick}) {
+  const [showResult, setShowResult] = useState(true)
+  const [keyWord, setKeyWord] = useState('')
   const [showPreloader, setShowPreloader] = useState(false)
   const [showNotFound, setShowNotFound] = useState(false)
+  const [newsData, setNewsData] = useState(data)
 
-  // Вызовы форм
-  function handleSignupFormClick() {
-    setOpenedPopup({isSignupFormOpen: true});
-    setHideBurger(true)
-  }
-
-  function handleSigninFormClick() {
-    setOpenedPopup({isSigninFormOpen: true});
-    setHideBurger(true)
-  }
-
-  function handleSuccessPopupOpen() {
-    setOpenedPopup({isSuccessPopupOpen: true});
-    setHideBurger(true)
-  }
-
-
-  function closeAllPopups() {
-    setOpenedPopup({isSignupFormOpen: false})
-    setOpenedPopup({isSigninFormOpen: false})
-    setHideBurger(false)
-  }
-
-  // Демонстрация работы прелоадера и вывода новостей. Все работет после сабмита формы запроса
+  //todo сделать поиск по новому ключевому слову
   function handleSearch(keyWord) {
-    setShowResult(false)
-    setShowNotFound(false)
-    setTimeout(() => {
-      setShowPreloader(false)
-
-      if (keyWord === 'not') {
-        setShowNotFound(true)
-        setShowResult(false)
-      } else {
-
-        setShowResult(true)
-      }
-
-    }, 2000);
-
     setShowPreloader(true)
+    newsApi.getNews(keyWord)
+      .then((data) => {
+        localStorage.setItem('news', JSON.stringify(data.articles))
+      })
+      .then(() =>{
+        setNewsData(JSON.parse(localStorage.getItem('news')))
+        console.log(newsData);
+        setShowPreloader(false)
+        setShowResult(true)
+        setShowNotFound(false)
+      })
+      .catch(() => {
+        setShowPreloader(false)
+        setShowNotFound(true)
+      })
+    setKeyWord(keyWord)
+    console.log(keyWord);
   }
 
+  //Добавление карточки
+  function handleCardSave(article) {
+    // const isLiked = card.likes.includes(currentUser._id);
+
+    api.postCard(article)
+      .then((newCard) => {
+        console.log(newCard)
+      })
+      .catch((err) => {
+        console.error(err)
+      });
+  }
 
   return (
-    <main className="main">
-      <Header
-        isAutorized={false}
-        isSavedNews={false}
-        userName='Кусто'
-        hideBurger={hideBurger}
-        onSignUp={handleSignupFormClick}
-      />
-      <SearchForm
-        sendWord={handleSearch}
-      />
-      {showPreloader && <Preloader/>}
-      {showNotFound && <NotFound/>}
-      {showResult && <NewsCardList/>}
-      <About/>
-      {openedPopup.isSignupFormOpen && <PopupSignup
-        onClose={closeAllPopups}
-        onSignIn={handleSigninFormClick}
-        onSubmit={handleSuccessPopupOpen}
-      />}
-      {openedPopup.isSigninFormOpen && <PopupSignin
-        onClose={closeAllPopups}
-        onSignUp={handleSignupFormClick}
-      />}
-      {openedPopup.isSuccessPopupOpen && <PopupWithInformer
-        onClose={closeAllPopups}
-        title="Пользователь успешно зарегистрирован!"
-      >
-        <button onClick={handleSigninFormClick} className="form__link">Войти</button>
-      </PopupWithInformer>}
-    </main>
+      <main className="main">
+        <Header
+          loggedIn={loggedIn}
+          isSavedNews={false}
+          hideBurger={hideBurger}
+          onSignUp={onSignupFormClick}
+          onSignOut={onLogout}
+        />
+        <SearchForm
+          sendWord={handleSearch}
+        />
+        {showPreloader && <Preloader/>}
+        {showNotFound && <NotFound/>}
+        {showResult && <NewsCardList
+          loggedIn = {loggedIn}
+          data={newsData}
+          onCardSave={handleCardSave}// сохранялка карточек
+        />}
+        <About/>
+      </main>
   );
 }
 

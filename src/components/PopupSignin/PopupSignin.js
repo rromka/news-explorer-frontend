@@ -2,13 +2,14 @@ import React from 'react';
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 import useInput from "../../hooks/useValidation";
 
-function PopupSignin({onClose, onSignUp}) {
+function PopupSignin({onClose, onSignUp, onSubmit}) {
 
   const email = useInput('', {isEmail: true})
-  const password = useInput('',)
+  const password = useInput('',{minLength: 8})
 
   function handleSubmit(e) {
     e.preventDefault();
+    onSubmit(email.value, password.value)
   }
 
   return (
@@ -45,7 +46,7 @@ function PopupSignin({onClose, onSignUp}) {
                onChange={password.onChange}
                onBlur={password.onBlur}
         />
-        {password.isInInput && <span className="popup__input_type_error">Неверный пароль</span>}
+        {(password.isInInput && password.minLength) &&  <span className="popup__input_type_error">Неверный пароль</span>}
       </label>
       <button type="submit"
               className={`popup__button button

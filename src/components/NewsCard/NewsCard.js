@@ -2,7 +2,7 @@ import './NewsCard.css'
 import React, {useState} from "react";
 import Informer from "../Informer/Informer";
 
-function NewsCard({savedNews, ...article}) {
+function NewsCard({savedNews, loggedIn, onCardSave, ...article}) {
 
   const date = new Date(article.publishedAt)
   const bookmark = 'card__button_type_bookmark'
@@ -22,14 +22,34 @@ function NewsCard({savedNews, ...article}) {
     }
   }
 
+  function handleSaveCard() {
+    onCardSave(
+    {
+      keyword: 'жопа',
+        title: article.title,
+        text: article.description,
+        date: article.publishedAt,
+        source: article.source.name,
+        link: article.url,
+        image: article.urlToImage,
+        // owner: ''
+    }
+    );
+    if (isBookmarked === bookmark) {
+      setIsBookmarked(bookmark_active);
+    } else {
+      setIsBookmarked(bookmark)
+    }
+  }
+
   return (
     <div className="card">
       <div className="card__control">
         {savedNews ?
           <button className={`card__button ${trashIcon}`} type="button"/> :
-          <button className={`card__button ${isBookmarked}`} type="button" onClick={handleBookmarked}/>
+          <button className={`card__button ${isBookmarked}`} type="button" onClick={handleSaveCard}/>
         }
-        <Informer text={infoText} isTooltip/>
+        {!loggedIn && <Informer text={infoText} isTooltip/>}
         {savedNews && <Informer text={infoTag}/>}
 
       </div>
