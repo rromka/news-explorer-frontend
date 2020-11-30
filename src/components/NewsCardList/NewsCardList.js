@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from "react";
 import './NewsCardList.css'
 import NewsCard from "../NewsCard/NewsCard";
+import {NUMBER_ARTICLES_FOR_DISPLAY} from "../../utils/constants";
 
-function NewsCardList({isSavedNews, data, loggedIn, onCardSave}) {
-  console.log(data)
+
+function NewsCardList({isSavedNews, data, loggedIn, onCardSave, keyWord, onCardDelete}) {
 
   const articles = data // временно для вывода новостей
-  const [searchResult, setSearchResult] = useState([...articles.slice(0, 3)])
+  const [searchResult, setSearchResult] = useState([...articles.slice(0, NUMBER_ARTICLES_FOR_DISPLAY)])
   const [showButton, setShowButton] = useState(true)
 
   const buttonToggle = () => {
@@ -16,7 +17,8 @@ function NewsCardList({isSavedNews, data, loggedIn, onCardSave}) {
   }
 
   const addMoreResults = () => {
-    setSearchResult([...searchResult, ...articles.slice(searchResult.length, searchResult.length + 3)]);
+    setSearchResult([...searchResult,
+      ...articles.slice(searchResult.length, searchResult.length + NUMBER_ARTICLES_FOR_DISPLAY)]);
   }
 
   useEffect(() => {
@@ -31,9 +33,11 @@ function NewsCardList({isSavedNews, data, loggedIn, onCardSave}) {
           {searchResult.map((article) => <NewsCard
             {...article}
             savedNews={isSavedNews}
-            key={article.publishedAt}
+            key={article.url}
             loggedIn={loggedIn}
-            onCardSave={onCardSave} //Сохранялка карточек
+            keyWord={keyWord}
+            onCardSave={onCardSave}
+            onCardDelete={onCardDelete}
           />)}
         </div>
         {showButton && <button

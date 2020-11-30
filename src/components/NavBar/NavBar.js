@@ -1,18 +1,20 @@
 import React, {useContext, useEffect, useState} from "react";
 import {NavLink} from 'react-router-dom';
 import {useWindowWidth} from '@react-hook/window-size'
-import './Navigation.css';
+import './NavBar.css';
 import exitIcon from '../../images/exit.svg'
 import exitIcon_light from '../../images/exit_light.svg'
 import MobileMenu from "../MobileMenu/MobileMenu";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 
-function Navigation({loggedIn, isSavedNews, hideBurger, onSignUp, onSignOut}) {
+function NavBar({loggedIn, isSavedNews, hideBurger, onLogin, onSignOut}) {
   const lightButton = isSavedNews ? 'main__menu-button_light' : ''
   const [burgerActive, setBurgerActive] = useState(false)
   const savedNewsMenu = !!isSavedNews
   const onlyWidth = useWindowWidth(10)
   const currentUser = useContext(CurrentUserContext)
+
+
 
   useEffect(() => {
     if (onlyWidth <= 767) {
@@ -42,17 +44,19 @@ function Navigation({loggedIn, isSavedNews, hideBurger, onSignUp, onSignOut}) {
             <img className="main__menu-button-icon" src={`${isSavedNews ? exitIcon : exitIcon_light}`} alt="Выход"/>
           </button>}
           {!loggedIn &&
-          <button onClick={onSignUp} className={`main__menu-button ${lightButton}`}>Авторизоваться</button>}
+          <button onClick={onLogin} className={`main__menu-button ${lightButton}`}>Авторизоваться</button>}
         </li>
       </ul>
 
       {(burgerActive && !hideBurger) && <MobileMenu
         savedNewsMenu={savedNewsMenu}
         loggedIn={loggedIn}
-        onSignUp={onSignUp}
+        onLogin={onLogin}
+        onSignOut={onSignOut}
+        userName={currentUser.name}
       />}
     </nav>
   );
 }
 
-export default Navigation;
+export default NavBar;

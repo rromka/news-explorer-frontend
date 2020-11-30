@@ -1,21 +1,37 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useLocation} from "react-router-dom";
 import './Header.css';
-import Navigation from "../Navigation/Navigation";
+import NavBar from "../NavBar/NavBar";
 
-function Header({loggedIn, isSavedNews, hideBurger, onSignUp, onSignOut}) {
+function Header({loggedIn, hideBurger, onLogin, onSignOut}) {
+
+  const location = useLocation()
+  const [isSavedNews, setIsSavedNews] = useState(false)
   const light = isSavedNews ? 'header__logo_black' : ''
   const headerLight = isSavedNews ? 'header_theme_light' : 'header_theme_dark'
 
+  const headerHandler = () => {
+    if (location.pathname === '/saved-news'
+    ) {
+      setIsSavedNews(true)
+    } else {
+      setIsSavedNews(false)
+    }
+  }
+
+  useEffect(() => {
+    headerHandler()
+  }, [location])
+
   return (
-    <header className={`header ${headerLight} page__section`}>
+    <header className={`page__section header ${headerLight}`}>
       <div className="header__elements">
         <Link to='/' className={`header__logo ${light}`}>NewsAnalyzer</Link>
-        <Navigation
+        <NavBar
           loggedIn={loggedIn}
           isSavedNews={isSavedNews}
           hideBurger={hideBurger}
-          onSignUp={onSignUp}
+          onLogin={onLogin}
           onSignOut={onSignOut}
         />
       </div>

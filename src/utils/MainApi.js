@@ -1,13 +1,12 @@
 /** @class отвечает за взаимодействие с сервером */
+// import {MAIN_API} from "./constants";
+
 class MainApi {
   /**
    * @constructor
-   * Принимает в себя
-   * @param {string} url- Адрес сервера
-   * @param {Object} headers - Заголовки запроса
    */
   constructor() {
-    this.url = 'http://localhost:3030'
+    this.url = 'http://api.nsexplo.students.nomoreparties.co'
   }
 
   /**
@@ -75,7 +74,7 @@ class MainApi {
    * @param {string} id - ID карточки
    */
   deleteCard(id) {
-    return fetch(`${this.url}/cards/${id}`, {
+    return fetch(`${this.url}/articles/${id}`, {
       method: 'DELETE',
       headers: {
         'authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -101,7 +100,6 @@ class MainApi {
           console.error('400 ошибка')
           throw res;
         }
-
       })
       .then((res => res.json()))
       .then((res) => {
@@ -125,7 +123,6 @@ class MainApi {
       .then((data) => {
         if (!data.token) {
           console.error('Ошибка авторизации')
-          return;
         } else {
           localStorage.setItem('token', data.token);
           return data;

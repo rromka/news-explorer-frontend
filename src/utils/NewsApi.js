@@ -1,26 +1,23 @@
+import {API_KEY, BASE_NEWS_API_URL, NEWS_API_PERIOD} from "./constants";
+
 class NewsApi {
   constructor() {
-    this._baseUrl = 'https://newsapi.org/v2/everything';
-    this._apiKey = '80a5bbd1a6174d7ab41ced042f5327d2';
-    this._period = 7;
+    this._baseUrl = BASE_NEWS_API_URL;
+    this._apiKey = API_KEY;
+    this._period = NEWS_API_PERIOD;
   }
 
-_formatDate(date) {
+//  Приведем дату к нужному формату
+  _formatDate(date) {
     let dd = date.getDate();
     if (dd < 10) dd = `0${dd}`;
-
     let mm = date.getMonth() + 1;
     if (mm < 10) mm = `0${mm}`;
-
     const yy = date.getFullYear();
-
     return `${yy}-${mm}-${dd}`;
   }
 
-
-  async getNews(keyWord) {
-    let response;
-    let json;
+  getNews(keyWord) {
     let to = new Date();
     let from = new Date();
 
@@ -28,27 +25,17 @@ _formatDate(date) {
     to = this._formatDate(to);
     from = this._formatDate(from);
 
-    const url = `${this._baseUrl}?q=${encodeURIComponent(keyWord)}&from=${from}&to=${to}&apiKey=${this._apiKey}&pageSize=100`;
-    try {
-      response = await fetch(url);
-    } catch (err) {
-      throw new Error('Проверьте подключение к сети.');
-    }
-
-    try {
-      json = await response.json();
-    } catch (err) {
-      throw new Error('Сервер передал некорректные данные.');
-    }
-
-    if (!response.ok) throw new Error(`Сервер вернул ошибку ${response.status} (${response.statusText}).`);
-
-    if (!json.articles.length) throw new Error('Ничего не найдено');
-
-    return json;
+    return fetch(`${this._baseUrl}/v2/everything?` +
+      `q=${encodeURIComponent(keyWord)}&` +
+      `from=${from}&` +
+      `to=${to}&` +
+      `apiKey=${this._apiKey}&` +
+      `pageSize=100`)
+      .then(res => this._checkServerResponse(res)
+      )
   }
 }
 
-const newsapi = new NewsApi()
+const newsApi = new NewsApi()
 
-export default newsapi
+export default newsApi

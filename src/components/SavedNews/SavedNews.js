@@ -1,45 +1,32 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import './SavedNews.css';
-import NewsCardList from "../NewsCardList/NewsCardList";
 import SavedNewsHeader from "../SavedNewsHeader/SavedNewsHeader";
-import Header from "../Header/Header";
-import api from "../../utils/MainApi";
+import NewsCard from "../NewsCard/NewsCard";
 
-function SavedNews({loggedIn, onLogout}) {
 
-  const [savedData, setSavedData] = useState([])
+function SavedNews({loggedIn, savedNews, onCardDelete}) {
 
-  const renderCards = () =>{
-    api.getInitialCards()
-      .then((data) => {
-        setSavedData(data)
-        console.log(data)
-      })
-      .catch((err) => {
-        console.error(err)
-      });
-  }
-
-  useEffect(()=>{
-    renderCards()
-  }, [])
-
+  const tags = savedNews.map(data => data.keyword)
 
   return (
-    <main className="">
-      <Header
-        loggedIn={loggedIn}
-        onSignOut={onLogout}
-        isSavedNews={true}
-      />
+    <main className="saved-news">
       <SavedNewsHeader
-        newsTags={['котейки', 'песики']}
-        newsCount={savedData.length}
+        newsTags={tags}
+        newsCount={savedNews.length}
       />
-      <NewsCardList
-        isSavedNews={true}
-        data={savedData}
-      />
+      <section className="news-card-list page__section">
+        <div className="news-card-list__container">
+          <div className="news-card-list__cards">
+            {savedNews.map((article) => <NewsCard
+              {...article}
+              savedNews ={true}
+              key={article._id}
+              loggedIn={loggedIn}
+              onCardDelete={onCardDelete} // Удалялка карточек
+            />)}
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

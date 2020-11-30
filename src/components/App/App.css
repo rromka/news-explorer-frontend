@@ -4,6 +4,7 @@
   max-width: 1440px;
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
   font-weight: normal;
+  background: url(../../images/header_background.png) no-repeat;
 }
 
 .page__section {
@@ -13,9 +14,9 @@
 }
 
 
-.page__section:first-child {
-  padding-top: 0;
-}
+/*.page__section:first-child {*/
+/*  padding-top: 0;*/
+/*}*/
 
 .page__title {
   max-width: 530px;

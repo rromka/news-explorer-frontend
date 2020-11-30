@@ -2,20 +2,21 @@ import React from 'react';
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 import useInput from "../../hooks/useValidation";
 
-function PopupSignin({onClose, onSignUp, onSubmit}) {
+function Register({onClose, onLogin, onRegister, errorMessage, onError}) {
 
   const email = useInput('', {isEmail: true})
-  const password = useInput('',{minLength: 8})
+  const password = useInput('', {minLength: 8})
+  const name = useInput('', {minLength: 3})
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit(email.value, password.value)
+    onRegister(email.value, password.value, name.value)
   }
 
   return (
     <PopupWithForm
-      name="signin"
-      title="Вход"
+      name="signup"
+      title="Регистрация"
       onClose={onClose}
       onSubmit={handleSubmit}
     >
@@ -46,20 +47,37 @@ function PopupSignin({onClose, onSignUp, onSubmit}) {
                onChange={password.onChange}
                onBlur={password.onBlur}
         />
-        {(password.isInInput && password.minLength) &&  <span className="popup__input_type_error">Неверный пароль</span>}
+        {(password.isInInput && password.minLength) &&
+        <span className="popup__input_type_error">{password.errorText}</span>}
       </label>
+
+      <label className="form__field">
+        Имя
+        <input id="name"
+               className="popup__input form__input"
+               type="text"
+               name="name"
+               placeholder="Введите свое имя"
+               required
+               value={name.value}
+               onChange={name.onChange}
+               onBlur={name.onBlur}
+        />
+        {(name.isInInput && name.minLength) && <span className="popup__input_type_error">{name.errorText}</span>}
+      </label>
+      {onError && <span className="popup__form_type_error">{errorMessage}</span>}
       <button type="submit"
               className={`popup__button button
-               ${(!email.isInputValid || !password.isInputValid) ? 'popup__button_disabled' : ''}`}
-              disabled={!email.isInputValid || !password.isInputValid}>
-        Войти
+               ${(!email.isInputValid || !password.isInputValid || !name.isInputValid) ? 'popup__button_disabled' : ''}`}
+              disabled={!email.isInputValid || !password.isInputValid || !name.isInputValid}>
+        Зарегистрироваться
       </button>
       <p className='form__links'>
         или
-        <button onClick={onSignUp} className="form__link">Зарегистрироваться</button>
+        <button onClick={onLogin} className="form__link">Войти</button>
       </p>
     </PopupWithForm>
   );
 }
 
-export default PopupSignin;
+export default Register;

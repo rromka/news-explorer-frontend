@@ -1,17 +1,17 @@
 import './SearchForm.css';
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
-function SearchForm({sendWord}) {
+function SearchForm({onSearch, keyWord}) {
 
-  const [word, setWord] = useState('')
+  const [searchQuery, setSearchQuery] = useState(keyWord)
 
   const wordHandler = (e) => {
-    setWord(e.target.value)
+    setSearchQuery(e.target.value)
   }
 
   function handleSubmit(e) {
     e.preventDefault()
-    sendWord(word)
+    onSearch(searchQuery)
   }
 
   return (
@@ -24,7 +24,7 @@ function SearchForm({sendWord}) {
                type="search"
                placeholder="Введите тему новости"
                required
-               value={word}
+               value={searchQuery}
                onChange={wordHandler}
         />
         <button className="search__button button" type="submit">Искать</button>
