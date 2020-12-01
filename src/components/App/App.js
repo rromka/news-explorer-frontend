@@ -115,7 +115,7 @@ function App() {
           setErrorMessage('Неверное имя пользователя или пароль');
         }
       })
-      .catch(err => console.log(err, 'fdsfdsf'))
+      .catch(err => console.log(err))
   };
 
   //Деавторизация пользователя с удалением информации из localstorage
