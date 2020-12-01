@@ -7,6 +7,18 @@ class NewsApi {
     this._period = NEWS_API_PERIOD;
   }
 
+  /**
+   * Проверяет ответ сервера
+   * @private
+   * @param {Object} res - ответ сервера
+   */
+  _checkServerResponse(res) {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`)
+  }
+
 //  Приведем дату к нужному формату
   _formatDate(date) {
     let dd = date.getDate();

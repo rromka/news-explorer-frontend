@@ -20,7 +20,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({})
   const [savedNews, setSavedNews] = useState(JSON.parse(localStorage.getItem('savedNews')) || [])
-  const [showResult, setShowResult] = useState(true)
+  const [showResult, setShowResult] = useState(false)
   const [keyWord, setKeyWord] = useState(JSON.parse(localStorage.getItem('keyword')) || '')
   const [showPreloader, setShowPreloader] = useState(false)
   const [showNotFound, setShowNotFound] = useState(false)
@@ -39,6 +39,7 @@ function App() {
   function handleLoginFormClick() {
     setOpenedPopup({isLoginFormOpen: true});
     setHideBurger(true)
+    setOnError(false)
   }
 
   function handleSuccessPopupOpen() {
@@ -110,10 +111,11 @@ function App() {
           setLoggedIn(true);
           setOpenedPopup({isLoginFormOpen: false})
         } else {
-          console.error('Ошибка');
+          setOnError(true);
+          setErrorMessage('Неверное имя пользователя или пароль');
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err, 'fdsfdsf'))
   };
 
   //Деавторизация пользователя с удалением информации из localstorage
@@ -174,6 +176,7 @@ function App() {
     setShowNotFound(false)
     newsApi.getNews(keyWord)
       .then((data) => {
+        console.log(data);
         setNewsData([])
         filterNews(data.articles, savedNews)
         setKeyWord((keyWord.charAt(0).toUpperCase() + keyWord.slice(1).toLowerCase()).trim())
@@ -246,6 +249,8 @@ function App() {
           onClose={closeAllPopups}
           onRegister={handleRegisterFormClick}
           onLogin={handleLogin}
+          onError={onError}
+          errorMessage={errorMessage}
         />}
         {openedPopup.isSuccessPopupOpen && <PopupWithInformer
           onClose={closeAllPopups}

@@ -2,7 +2,7 @@ import React from 'react';
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 import useInput from "../../hooks/useValidation";
 
-function Login({onClose, onRegister, onLogin}) {
+function Login({onClose, onRegister, onLogin, onError, errorMessage}) {
 
   const email = useInput('', {isEmail: true})
   const password = useInput('', {minLength: 8})
@@ -48,6 +48,7 @@ function Login({onClose, onRegister, onLogin}) {
         />
         {(password.isInInput && password.minLength) && <span className="popup__input_type_error">Неверный пароль</span>}
       </label>
+      {onError && <span className="popup__form_type_error">{errorMessage}</span>}
       <button type="submit"
               className={`popup__button button
                ${(!email.isInputValid || !password.isInputValid) ? 'popup__button_disabled' : ''}`}
