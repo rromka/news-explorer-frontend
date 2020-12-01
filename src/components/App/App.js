@@ -202,8 +202,13 @@ function App() {
       item.saved = match !== undefined;
       return item
     })
-    setNewsData(filteredNews)
-    localStorage.setItem('news', JSON.stringify(filteredNews))
+    if (newsData.length > 0) {
+      setNewsData(filteredNews)
+      localStorage.setItem('news', JSON.stringify(filteredNews))
+      setShowResult(true)
+    } else{
+    setShowResult(false)
+    }
   }
 
   return (

@@ -57,7 +57,7 @@ function NewsCard({savedNews, loggedIn, onCardSave, keyWord, onCardDelete, ...ar
         {savedNews ?
           <button className={`card__button ${trashIcon}`} type="button" onClick={handleDeleteCard}/> :
           <button className={`card__button ${bookmarked}`} type="button"
-                  onClick={!saved ? handleSaveCard : handleDeleteCard} disabled={!loggedIn}/>
+                  onClick = {!saved ? handleSaveCard : handleDeleteCard} disabled={!loggedIn}/>
         }
         {!loggedIn && <Informer text={infoText} isTooltip/>}
         {savedNews && <Informer text={article.keyword}/>}
